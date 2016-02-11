@@ -1,0 +1,9 @@
+{
+  "name": "mkv3",
+  "version": "0.3.0",
+  "dependencies": {
+    "ari-client": "latest",
+    "autobahn": "latest",
+    "co": "latest"
+  }
+}
