@@ -10,5 +10,13 @@ module.exports = {
         realm: 'realm1',
         authmethods: ["wampcra"],
         authid: 'backend1',
+        password: 'secret974'
+    },
+    mysql: {
+        host : "localhost",
+        user : "root",
+        password : "",
+        database : "mkv2",
+        charset : "utf8"
     }
 };

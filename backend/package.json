@@ -4,6 +4,7 @@
   "dependencies": {
     "ari-client": "latest",
     "autobahn": "latest",
-    "co": "latest"
+    "co": "latest",
+    "promise-mysql": "latest"
   }
 }

@@ -1,12 +1,14 @@
 'use strict';
 let ariClient = require('ari-client'),
     autobahn = require('autobahn'),
-    co = require('co');
+    co = require('co'),
+    mysql = require('promise-mysql');
 
 module.exports = class ConfManagerApp {
     constructor() {
         this.logger = console; // TODO: Write powerful logger factory
         this.config = require('./config.js');
+        this.wampFunctions = require('./WampFunctions.js');
         //this.configureProcess();
         co(this.startInit.bind(this))
             .catch(e => this.logger.error(e));
@@ -23,22 +25,21 @@ module.exports = class ConfManagerApp {
         yield this.initWamp();
         yield this.initAri();
         yield this.initApi();
+        yield this.initMysql();
     }
 
     *initWamp() {
         return new Promise(resolve => {
-            function onchallenge(session, details, extra) {
-                if (method === "wampcra") {
-                    return autobahn.auth_cra.sign('secret974', extra.challenge);
-                }
-            }
-
             this.wamp = new autobahn.Connection({
                 url: this.config.wamp.url,
                 realm: this.config.wamp.realm,
                 authmethods: this.config.wamp.authmethods,
                 authid: this.config.wamp.authid,
-                onchallenge: onchallenge
+                onchallenge: (session, details, extra) => {
+                    if (method === "wampcra") {
+                        return autobahn.auth_cra.sign(this.config.wamp.password, extra.challenge);
+                    }
+                }
             });
 
             this.wamp.onconnection = () => {
@@ -59,7 +60,25 @@ module.exports = class ConfManagerApp {
     }
 
     *initApi() {
-        //
+        // TODO: Make a cool RESTful API for phonebook
+    }
+
+    *initMysql() {
+
+        yield this.mysql = mysql.createConnection({
+            host : this.config.mysql.host,
+            user : this.config.mysql.user,
+            password : this.config.mysql.password,
+            database : this.config.mysql.database,
+            charset : this.config.mysql.charset
+        });
+
+        this.logger.info('Init: Connected to Mysql Database.');
+
+        setInterval(() => {
+            this.mysql.query('SELECT 1');
+        }, 5000);
+
     }
 
 };
