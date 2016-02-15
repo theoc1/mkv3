@@ -1,7 +1,10 @@
+'use strict';
 
-
-module.exports = {
-    authenticate: (args, kwargs, details) => {
+module.exports = class WampActions {
+    constructor() {
+        //
+    }
+    authenticate(args, kwargs, details) {
         this.logger.info('Auth from origin: ' + args[2].transport.http_headers_received.origin + ' from ' + args[2].transport.peer + '. User - ' + args[1]);
         var authid = args[1];
         var d = when.defer();

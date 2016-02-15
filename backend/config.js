@@ -1,6 +1,6 @@
 module.exports = {
     ari: {
-        host: '127.0.0.1',
+        host: 'http://127.0.0.1:8088',
         username: 'mkv3',
         password: '2c1588cd89bb6c5e97661fbbc99b6013',
         app: 'mkv3'
@@ -16,7 +16,7 @@ module.exports = {
         host : "localhost",
         user : "root",
         password : "",
-        database : "mkv2",
+        database : "mkv3",
         charset : "utf8"
     }
 };
